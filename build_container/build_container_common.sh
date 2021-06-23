@@ -53,6 +53,14 @@ if [[ "$(uname -m)" == "aarch64" ]]; then
   chmod +x /usr/local/bin/bazel
 fi
 
+# Cache the 4.1.0 bazel version, if the downstream .bazelversion is changed this will be ignored until updated here
+mkdir /tmp/bazel
+cd /tmp/bazel
+echo "4.1.0" > .bazelversion
+bazel --version
+cd
+rm -rf /tmp/bazel
+
 LLVM_RELEASE="clang+llvm-${LLVM_VERSION}-${LLVM_DISTRO}"
 LLVM_DOWNLOAD_PREFIX=${LLVM_DOWNLOAD_PREFIX:-https://github.com/llvm/llvm-project/releases/download/llvmorg-}
 download_and_check "${LLVM_RELEASE}.tar.xz" "${LLVM_DOWNLOAD_PREFIX}${LLVM_VERSION}/${LLVM_RELEASE}.tar.xz" "${LLVM_SHA256SUM}"
