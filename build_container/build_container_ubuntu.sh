@@ -45,9 +45,6 @@ esac
 curl -fsSL https://apt.kitware.com/keys/kitware-archive-latest.asc | apt-key add -
 apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"
 
-# Python
-add-apt-repository ppa:deadsnakes/ppa
-
 apt-get update -y
 
 PACKAGES=(
@@ -74,9 +71,7 @@ PACKAGES=(
     python
     python-pip
     python-setuptools
-    python3.10
-    python3.10-dev
-    python3.10-distutils
+    python-yaml
     rpm
     rsync
     ssh-client
@@ -147,16 +142,6 @@ groupadd -r pcap
 chgrp pcap /usr/sbin/tcpdump
 chmod 750 /usr/sbin/tcpdump
 setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-
-# Get pip for python3.10
-curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
-
-# make python3.10 the default python3 interpreter
-update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-
-# pip installs
-# TODO(phlax): use hashed requirements
-pip3 install -U pyyaml virtualenv
 
 source ./build_container_common.sh
 
